@@ -9,7 +9,6 @@ import pygame
 
 # ============================================================
 # PIXEL PALS - a cozy virtual pet game
-# Python 3.13 + Pygame
 # ============================================================
 
 pygame.init()
@@ -411,8 +410,12 @@ def draw_food_icon(item, x, y, size=38):
         pygame.draw.rect(canvas, (220,246,255), (x-5*s,y-7*s,4*s,12*s))
         pygame.draw.rect(canvas, (86,159,224), (x-6*s,y-16*s,12*s,5*s), border_radius=round(2*s))
     else:
-        pygame.draw.circle(canvas, color, (x,y), max(5,round(size*.32)))
-        pygame.draw.circle(canvas, INK, (x,y), max(5,round(size*.32)), max(1,round(2*s)))
+        # Fallback icon for any food item without a custom drawing above.
+        radius = max(5, round(size * 0.32))
+        food_color = FOOD_COLORS.get(item, PINK)
+        center = (round(x), round(y))
+        pygame.draw.circle(canvas, food_color, center, radius)
+        pygame.draw.circle(canvas, INK, center, radius, max(1, round(2 * s)))
 # ---------- Room backgrounds ----------
 
 def draw_room_fallback(room):
